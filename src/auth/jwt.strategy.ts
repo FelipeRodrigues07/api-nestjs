@@ -8,11 +8,11 @@ import { z } from 'zod'
 //validar o token, precisa só da public
 
 
-const tokenSchema = z.object({
+const tokenPayloadSchema = z.object({
   sub: z.string().uuid(),//ver se la tem o id
 })
 
-export type TokenSchema = z.infer<typeof tokenSchema>
+export type UserPayload  = z.infer<typeof tokenPayloadSchema>
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -26,7 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     })
   }
 
-  async validate(payload: TokenSchema) {  //se não possuir o id ele vai dar erro
-    return tokenSchema.parse(payload) 
+  async validate(payload: UserPayload) {  //se não possuir o id ele vai dar erro
+    return tokenPayloadSchema.parse(payload) 
   }
 }
